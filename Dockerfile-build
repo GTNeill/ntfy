@@ -21,14 +21,14 @@ ADD Makefile .
 
 # docs
 ADD ./requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip make docs-deps
+RUN --mount=type=cache,id=s/aed37543-9885-4a65-955d-16af37d42351-/root/.cache/pip,target=/root/.cache/pip make docs-deps
 ADD ./mkdocs.yml .
 ADD ./docs ./docs
 RUN make docs-build
 
 # web
 ADD ./web/package.json ./web/package-lock.json ./web/
-RUN --mount=type=cache,target=/root/.npm make web-deps
+RUN --mount=type=cache,id=s/aed37543-9885-4a65-955d-16af37d42351-/root/.npm,target=/root/.npm make web-deps
 ADD ./web ./web
 RUN make web-build
 
@@ -58,7 +58,7 @@ ADD ./limit ./limit
 ADD ./topic ./topic
 ADD ./template/gotext ./template/gotext
 
-RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build make VERSION=$VERSION COMMIT=$COMMIT cli-linux-server
+RUN --mount=type=cache,id=s/aed37543-9885-4a65-955d-16af37d42351-/go/pkg/mod,target=/go/pkg/mod --mount=type=cache,id=s/aed37543-9885-4a65-955d-16af37d42351-/root/.cache/go-build,target=/root/.cache/go-build make VERSION=$VERSION COMMIT=$COMMIT cli-linux-server
 
 FROM alpine
 
